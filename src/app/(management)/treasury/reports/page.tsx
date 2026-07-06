@@ -7,6 +7,6 @@ export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } 
 
 export default function Page(): React.JSX.Element {
   return (
-    <h1>Hola mundo desde tesorería</h1>
+    <h1>Hola mundo desde reportes</h1>
   );
 }
