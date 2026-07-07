@@ -28,8 +28,10 @@ export const useMutate = <TData, TVariables>({
   const mutate = (variables: TVariables, callbacks?: MutateCallbacks<TData>): void => {
     mutation.mutate(variables, {
       onSuccess: (data) => {
-        const handler = callbacks?.onSuccess ?? defaultOnSuccess;
-        handler?.(data);
+        // const handler = callbacks?.onSuccess ?? defaultOnSuccess;
+        // handler?.(data);
+        defaultOnSuccess?.(data);
+        callbacks?.onSuccess?.(data);
       },
       onError: (error) => {
         const handler = callbacks?.onError ?? defaultOnError;
