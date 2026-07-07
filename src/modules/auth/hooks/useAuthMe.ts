@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -16,12 +16,18 @@ export const useAuthMe = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const hasToken = Boolean(getStoredToken());
+  const [ready, setReady] = useState(false);
+  const [hasToken, setHasToken] = useState(false);
+
+  useEffect(() => {
+    setHasToken(Boolean(getStoredToken()));
+    setReady(true);
+  }, []);
 
   const query = useFetch<UserMeResponse>({
     queryKey: AUTH_ME_KEY,
     service: authService.me,
-    enabled: hasToken,
+    enabled: ready && hasToken,
     staleTime: 5 * 60 * 1000,
   });
 

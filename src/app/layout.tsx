@@ -5,7 +5,7 @@ import '@/styles/global.css';
 
 import { QueryProvider } from '@/core/providers/QueryProvider';
 
-import { UserProvider } from '@/contexts/user-context';
+// import { UserProvider } from '@/contexts/user-context';
 import { LocalizationProvider } from '@/components/core/localization-provider';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
 
@@ -20,11 +20,11 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
     <html lang="en">
       <body>
         <LocalizationProvider>
-          <UserProvider>
+          {/* <UserProvider> */}
             <ThemeProvider>
               <QueryProvider>{children}</QueryProvider>
             </ThemeProvider>
-          </UserProvider>
+          {/* </UserProvider> */}
         </LocalizationProvider>
       </body>
     </html>

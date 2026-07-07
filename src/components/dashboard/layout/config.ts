@@ -2,7 +2,7 @@ import type { NavItemConfig } from '@/types/nav';
 import { paths } from '@/paths';
 
 export const navItems = [
-  { key: 'dashboard', title: 'Dashboard', href: paths.dashboard2, icon: 'dashboard' },
+  { key: 'dashboard', title: 'Dashboard', href: paths.dashboard, icon: 'dashboard' },
   {
     key: 'treasury',
     title: 'Tesorería',
@@ -28,15 +28,15 @@ export const navItems = [
       },
     ],
   },
-  { key: 'overview', title: 'Overview', href: paths.dashboard.overview, icon: 'chart-pie' },
-  { key: 'customers', title: 'Customers', href: paths.dashboard.customers, icon: 'users' },
+  // { key: 'overview', title: 'Overview', href: paths.oldDashboard.overview, icon: 'chart-pie' },
+  { key: 'customers', title: 'Customers', href: paths.oldDashboard.customers, icon: 'users' },
   {
     key: 'integrations',
     title: 'Integrations',
-    href: paths.dashboard.integrations,
+    href: paths.oldDashboard.integrations,
     icon: 'plugs-connected',
   },
-  { key: 'settings', title: 'Settings', href: paths.dashboard.settings, icon: 'gear-six' },
-  { key: 'account', title: 'Account', href: paths.dashboard.account, icon: 'user' },
+  { key: 'settings', title: 'Settings', href: paths.oldDashboard.settings, icon: 'gear-six' },
+  { key: 'account', title: 'Account', href: paths.oldDashboard.account, icon: 'user' },
   { key: 'error', title: 'Error', href: paths.errors.notFound, icon: 'x-square' },
 ] satisfies NavItemConfig[];
