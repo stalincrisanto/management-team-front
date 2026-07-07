@@ -3,12 +3,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { useMutate } from '@/hooks/useMutate';
 
-import { setAuthCookie } from '../lib/authCookies';
-import { setStoredToken } from '../lib/authStorage';
+import { persistAuthSession } from '../lib/authSession';
 import { authService } from '../services/auth.service';
 import { LoginRequest } from '../types/auth.type';
-
-export const AUTH_ME_KEY = ['auth', 'me'] as const;
+import { AUTH_ME_KEY } from './useAuthMe';
 
 type LoginCallbacks = {
   onSuccess?: () => void;
@@ -28,8 +26,7 @@ export const useLogin = () => {
   const login = (credentials: LoginRequest, callbacks?: LoginCallbacks) => {
     mutate(credentials, {
       onSuccess: (data) => {
-        setStoredToken(data.token);
-        setAuthCookie(data.token);
+        persistAuthSession(data.token);
         queryClient.setQueryData(AUTH_ME_KEY, data.user);
         const redirectTo = searchParams.get('redirectTo');
         const targetUrl = redirectTo || '/dashboard';
