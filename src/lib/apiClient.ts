@@ -2,7 +2,7 @@ import { removeAuthCookie } from '@/modules/auth/lib/authCookies';
 import { getStoredToken, removeStoredToken } from '@/modules/auth/lib/authStorage';
 
 import type { ApiFailureResponse, ApiResponse } from '@/types/api';
-import { ApiError } from '@/types/api-error';
+import { ApiError } from '@/types/apiError';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 

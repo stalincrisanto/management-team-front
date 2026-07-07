@@ -1,4 +1,10 @@
 export const paths = {
+  auth: {
+    login: '/auth',
+    signIn: '/auth',
+    signUp: '/auth/sign-up',
+    resetPassword: '/auth/reset-password',
+  },
   dashboard2: '/dashboard2',
   treasury: {
     root: '/treasury',
@@ -8,7 +14,7 @@ export const paths = {
     reports: '/treasury/reports',
   },
   home: '/',
-  auth: { signIn: '/auth/sign-in', signUp: '/auth/sign-up', resetPassword: '/auth/reset-password' },
+  // auth: { signIn: '/auth/sign-in', signUp: '/auth/sign-up', resetPassword: '/auth/reset-password' },
   dashboard: {
     overview: '/dashboard',
     account: '/dashboard/account',
