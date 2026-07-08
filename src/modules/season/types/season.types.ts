@@ -28,11 +28,3 @@ export interface UpdateSeasonRequest {
   endDate?: string | null;
   initialBalance: number;
 }
-
-export interface SeasonFormValues {
-  name: string;
-  startDate: string;
-  endDate: string;
-  initialBalance: number;
-  activate: boolean;
-}
