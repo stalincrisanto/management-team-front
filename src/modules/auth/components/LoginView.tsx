@@ -18,9 +18,6 @@ import {
 import { EyeIcon, EyeSlashIcon } from '@phosphor-icons/react';
 import { Controller, useForm } from 'react-hook-form';
 
-// import { paths } from '@/paths';
-// import { DynamicLogo } from '@/components/core/logo';
-
 import { useLogin } from '../hooks/useLogin';
 import { LoginFormValues, loginSchema } from '../schema/login.schema';
 
@@ -44,19 +41,6 @@ const LoginView = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  //   const onSubmit = useCallback(
-  //     (values: LoginFormValues): void => {
-  //       setServerError(null);
-
-  //       login(values, {
-  //         onError: (message) => {
-  //           setServerError(message);
-  //         },
-  //       });
-  //     },
-  //     [login],
-  //   );
-
   const onSubmit = (values: LoginFormValues): void => {
     setServerError(null);
 
@@ -77,16 +61,6 @@ const LoginView = () => {
       }}
     >
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
-        {/* <Box sx={{ p: 3 }}>
-          <Box
-            // component={RouterLink}
-            href={paths.home}
-            sx={{ display: 'inline-block', fontSize: 0 }}
-          >
-            <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
-          </Box>
-        </Box> */}
-
         <Box
           sx={{
             alignItems: 'center',

@@ -13,18 +13,6 @@ export interface SeasonApiResponse {
   totalPeriods?: number;
 }
 
-export interface SeasonSummary {
-  id: string;
-  name: string;
-  startDate: string;
-  endDate: string | null;
-  initialBalance: number;
-  totalIncome: number;
-  totalExpenses: number;
-  currentBalance: number;
-  totalPeriods: number;
-  active: boolean;
-}
 
 export interface CreateSeasonRequest {
   name: string;
