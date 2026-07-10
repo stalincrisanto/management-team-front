@@ -2,15 +2,15 @@ import { useMutation, type MutationKey } from '@tanstack/react-query';
 
 import { ApiError } from '@/types/apiError';
 
-interface MutateCallbacks<TData> {
-  onSuccess?: (data: TData) => void;
+interface MutateCallbacks<TData, TVariables> {
+  onSuccess?: (data: TData, variables: TVariables) => void;
   onError?: (error: ApiError) => void;
 }
 
 interface UseMutateProps<TData, TVariables> {
   mutationKey?: MutationKey;
   service: (variables: TVariables) => Promise<TData>;
-  onSuccess?: (data: TData) => void;
+  onSuccess?: (data: TData, variables: TVariables) => void;
   onError?: (error: ApiError) => void;
 }
 
@@ -25,13 +25,13 @@ export const useMutate = <TData, TVariables>({
     mutationFn: service,
   });
 
-  const mutate = (variables: TVariables, callbacks?: MutateCallbacks<TData>): void => {
+  const mutate = (variables: TVariables, callbacks?: MutateCallbacks<TData, TVariables>): void => {
     mutation.mutate(variables, {
       onSuccess: (data) => {
         // const handler = callbacks?.onSuccess ?? defaultOnSuccess;
         // handler?.(data);
-        defaultOnSuccess?.(data);
-        callbacks?.onSuccess?.(data);
+        defaultOnSuccess?.(data, variables);
+        callbacks?.onSuccess?.(data, variables);
       },
       onError: (error) => {
         const handler = callbacks?.onError ?? defaultOnError;
