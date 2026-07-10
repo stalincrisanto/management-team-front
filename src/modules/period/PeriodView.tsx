@@ -28,38 +28,41 @@ const PeriodView = () => {
   });
 
   return (
-    <Stack spacing={3}>
-      <SectionHeader
-        title="Jornadas"
-        subtitle="Cada jornada agrupa los movimientos financieros de un partido."
-        actions={
-          <CustomButton
-            variant="contained"
-            icon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
-            onClick={() => router.push('/treasury/periods/new')}
-          >
-            Nueva jornada
-          </CustomButton>
-        }
-      />
-
-      <ContentCard disableContentPadding>
-        <PeriodsTable
-          rows={periodsPage?.content ?? []}
-          loading={isLoading}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          totalRows={periodsPage?.totalElements ?? 0}
-          onPageChange={setPage}
-          onRowsPerPageChange={(value) => {
-            setRowsPerPage(value);
-            setPage(0);
-          }}
-          onView={(row) => router.push(`/treasury/periods/${row.id}`)}
-          onDelete={() => {}}
+    <>
+      <Stack spacing={3}>
+        <SectionHeader
+          title="Jornadas"
+          subtitle="Cada jornada agrupa los movimientos financieros de un partido."
+          actions={
+            <CustomButton
+              variant="contained"
+              icon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
+              onClick={() => router.push('/treasury/periods/new')}
+            >
+              Nueva jornada
+            </CustomButton>
+          }
         />
-      </ContentCard>
-    </Stack>
+
+        <ContentCard disableContentPadding>
+          <PeriodsTable
+            rows={periodsPage?.content ?? []}
+            loading={isLoading}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            totalRows={periodsPage?.totalElements ?? 0}
+            onPageChange={setPage}
+            onRowsPerPageChange={(value) => {
+              setRowsPerPage(value);
+              setPage(0);
+            }}
+            onView={(row) => router.push(`/treasury/periods/${row.id}`)}
+            onDelete={() => {}}
+          />
+        </ContentCard>
+      </Stack>
+
+    </>
   );
 };
 
