@@ -138,7 +138,7 @@ const LoginView = () => {
                 </Stack>
               </form>
 
-              <Alert color="info">
+              {/* <Alert color="info">
                 Usuario de prueba:{' '}
                 <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
                   admin
@@ -147,7 +147,7 @@ const LoginView = () => {
                 <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
                   Admin123*
                 </Typography>
-              </Alert>
+              </Alert> */}
             </Stack>
           </Box>
         </Box>
