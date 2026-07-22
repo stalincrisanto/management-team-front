@@ -1,43 +1,47 @@
-import { AUTH_TOKEN_KEY } from "./authConstants";
+import { AUTH_TOKEN_KEY } from './authConstants';
 
-const canUseDocumentCookie = (): boolean => {
-  return typeof document !== 'undefined';
-};
+const AUTH_COOKIE_MAX_AGE_SECONDS = 24 * 60 * 60;
 
-const getCookieSecureAttribute = (): string => {
-  if (typeof window === 'undefined') {
-    return '';
-  }
+const canUseDocumentCookie = (): boolean => typeof document !== 'undefined';
 
-  return window.location.protocol === 'https:' ? '; Secure' : '';
-};
+const isHttps = (): boolean =>
+  typeof window !== 'undefined' && window.location.protocol === 'https:';
 
 export const setAuthCookie = (token: string): void => {
   if (!canUseDocumentCookie()) {
     return;
   }
 
-  const secure = getCookieSecureAttribute();
-
-  document.cookie = [
+  const attributes = [
     `${AUTH_TOKEN_KEY}=${encodeURIComponent(token)}`,
     'Path=/',
+    `Max-Age=${AUTH_COOKIE_MAX_AGE_SECONDS}`,
     'SameSite=Lax',
-    secure,
-  ]
-    .filter(Boolean)
-    .join('; ');
-}
+  ];
+
+  if (isHttps()) {
+    attributes.push('Secure');
+  }
+
+  document.cookie = attributes.join('; ');
+};
 
 export const removeAuthCookie = (): void => {
   if (!canUseDocumentCookie()) {
     return;
   }
 
-  document.cookie = [
+  const attributes = [
     `${AUTH_TOKEN_KEY}=`,
     'Path=/',
     'Max-Age=0',
+    'Expires=Thu, 01 Jan 1970 00:00:00 GMT',
     'SameSite=Lax',
-  ].join('; ');
-}
+  ];
+
+  if (isHttps()) {
+    attributes.push('Secure');
+  }
+
+  document.cookie = attributes.join('; ');
+};

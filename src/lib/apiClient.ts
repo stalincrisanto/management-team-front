@@ -1,8 +1,11 @@
-import { removeAuthCookie } from '@/modules/auth/lib/authCookies';
-import { getStoredToken, removeStoredToken } from '@/modules/auth/lib/authStorage';
+import 'client-only';
+
+import { getStoredToken } from '@/modules/auth/lib/authStorage';
 
 import type { ApiFailureResponse, ApiResponse } from '@/types/api';
 import { ApiError } from '@/types/apiError';
+
+import { buildRequestHeaders } from './requestHeaders';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -65,24 +68,32 @@ const request = async <T>(endpoint: string, options: RequestOptions = {}): Promi
 
   const token = auth ? getStoredToken() : null;
 
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+
   const response = await fetch(buildUrl(endpoint), {
     ...requestOptions,
-    headers: {
-      Accept: 'application/json',
-      ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    credentials: 'omit',
+    cache: requestOptions.cache ?? 'no-store',
+    headers: buildRequestHeaders(headers, body, token),
+    body: body !== undefined ? undefined : isFormData ? body : JSON.stringify(body),
   });
 
   const responseBody = await parseResponseBody(response);
 
   if (response.status === 401) {
-    removeStoredToken();
-    removeAuthCookie();
-    window.location.href = '/auth/sign-in';
-    return undefined as T;
+    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+    const loginUrl = currentPath.startsWith('/auth/sign-in')
+      ? '/auth/sign-in'
+      : `/auth/sign-in?redirectTo=${encodeURIComponent(currentPath)}`;
+
+    window.location.replace(loginUrl);
+
+    throw new ApiError({
+      status: 401,
+      code: 'UNAUTHORIZED',
+      message: 'La sesión expiró o ya no es válida.',
+    });
   }
 
   if (!response.ok) {

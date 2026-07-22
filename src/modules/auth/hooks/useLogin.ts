@@ -7,6 +7,7 @@ import { persistAuthSession } from '../lib/authSession';
 import { authService } from '../services/auth.service';
 import { LoginRequest } from '../types/auth.type';
 import { AUTH_ME_KEY } from './useAuthMe';
+import { resolveSafeRedirect } from '../lib/resolveSafeRedirect';
 
 type LoginCallbacks = {
   onSuccess?: () => void;
@@ -28,14 +29,21 @@ export const useLogin = () => {
       onSuccess: (data) => {
         persistAuthSession(data.token);
         queryClient.setQueryData(AUTH_ME_KEY, data.user);
-        const redirectTo = searchParams.get('redirectTo');
-        const targetUrl = redirectTo || '/dashboard';
-        console.log('Login correcto, redirigiendo a:', targetUrl);
+        // const redirectTo = searchParams.get('redirectTo');
+        // const targetUrl = redirectTo || '/dashboard';
+        // console.log('Login correcto, redirigiendo a:', targetUrl);
+
+        // callbacks?.onSuccess?.();
+
+        // router.replace(targetUrl);
+        // router.refresh();
+        const targetUrl = resolveSafeRedirect(
+          searchParams.get('redirectTo'),
+        );
 
         callbacks?.onSuccess?.();
 
         router.replace(targetUrl);
-        router.refresh();
       },
       onError: (error) => {
         callbacks?.onError?.(error.message);

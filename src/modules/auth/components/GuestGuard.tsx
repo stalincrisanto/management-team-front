@@ -13,9 +13,9 @@ interface GuestGuardProps {
 const GuestGuard = ({ children }: GuestGuardProps): JSX.Element | null => {
   const router = useRouter();
 
-  const { isAuthenticated, isLoading, isFetching } = useAuthMe();
+  const { isAuthenticated, isLoading } = useAuthMe();
 
-  const checking = isLoading || isFetching;
+  const checking = isLoading;
 
   useEffect(() => {
     if (!checking && isAuthenticated) {
