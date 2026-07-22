@@ -1,5 +1,6 @@
 import 'client-only';
 
+import { clearAuthSession } from '@/modules/auth/lib/authSession';
 import { getStoredToken } from '@/modules/auth/lib/authStorage';
 
 import type { ApiFailureResponse, ApiResponse } from '@/types/api';
@@ -75,13 +76,16 @@ const request = async <T>(endpoint: string, options: RequestOptions = {}): Promi
     credentials: 'omit',
     cache: requestOptions.cache ?? 'no-store',
     headers: buildRequestHeaders(headers, body, token),
-    body: body !== undefined ? undefined : isFormData ? body : JSON.stringify(body),
+    body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
   });
 
   const responseBody = await parseResponseBody(response);
 
-  if (response.status === 401) {
-    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (response.status === 401 && auth) {
+    clearAuthSession();
+
+    const currentPath =
+      `${window.location.pathname}` + `${window.location.search}` + `${window.location.hash}`;
 
     const loginUrl = currentPath.startsWith('/auth/sign-in')
       ? '/auth/sign-in'
