@@ -1,17 +1,23 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { paths } from '@/paths';
 import { useMutate } from '@/hooks/useMutate';
+import { getInitialPathByRole } from '@/components/dashboard/layout/helper/initialPathByRole';
 
 import { persistAuthSession } from '../lib/authSession';
+import { resolveSafeRedirect } from '../lib/resolveSafeRedirect';
 import { authService } from '../services/auth.service';
 import { LoginRequest } from '../types/auth.type';
 import { AUTH_ME_KEY } from './useAuthMe';
-import { resolveSafeRedirect } from '../lib/resolveSafeRedirect';
 
 type LoginCallbacks = {
   onSuccess?: () => void;
   onError?: (message: string) => void;
+};
+
+const isReportsPath = (pathname: string): boolean => {
+  return pathname === paths.treasury.reports || pathname.startsWith(`${paths.treasury.reports}/`);
 };
 
 export const useLogin = () => {
@@ -29,17 +35,17 @@ export const useLogin = () => {
       onSuccess: (data) => {
         persistAuthSession(data.token);
         queryClient.setQueryData(AUTH_ME_KEY, data.user);
-        // const redirectTo = searchParams.get('redirectTo');
-        // const targetUrl = redirectTo || '/dashboard';
-        // console.log('Login correcto, redirigiendo a:', targetUrl);
 
-        // callbacks?.onSuccess?.();
+        const defaultPath = getInitialPathByRole(data.user.role);
 
-        // router.replace(targetUrl);
-        // router.refresh();
-        const targetUrl = resolveSafeRedirect(
-          searchParams.get('redirectTo'),
-        );
+        const safeRedirect = resolveSafeRedirect(searchParams.get('redirectTo'));
+
+        const targetUrl =
+          data.user.role === 'VIEWER'
+            ? isReportsPath(safeRedirect)
+              ? safeRedirect
+              : defaultPath
+            : safeRedirect;
 
         callbacks?.onSuccess?.();
 
