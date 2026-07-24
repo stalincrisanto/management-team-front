@@ -13,7 +13,7 @@ export function useLogout() {
     clearAuthSession();
     queryClient.clear();
 
-    router.replace('/auth/sign-in');
+    router.replace('/auth');
   };
 
   return {

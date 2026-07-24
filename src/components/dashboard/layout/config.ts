@@ -33,7 +33,7 @@ export const navItems = [
         title: 'Reportes',
         href: paths.treasury.reports,
         icon: 'chart-pie',
-        allowedRoles: ['VIEWER'],
+        allowedRoles: ['ADMIN', 'VIEWER'],
       },
     ],
   },

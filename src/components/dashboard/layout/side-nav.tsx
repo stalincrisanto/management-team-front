@@ -7,7 +7,6 @@ import { useAuthMe } from '@/modules/auth/hooks/useAuthMe';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { CaretUpDownIcon } from '@phosphor-icons/react/dist/ssr/CaretUpDown';
 
 import { paths } from '@/paths';
@@ -75,14 +74,6 @@ export function SideNav(): React.JSX.Element {
             p: '4px 12px',
           }}
         >
-          <Box sx={{ flex: '1 1 auto' }}>
-            <Typography color="var(--mui-palette-neutral-400)" variant="body2">
-              Workspace
-            </Typography>
-            <Typography color="inherit" variant="subtitle1">
-              Devias
-            </Typography>
-          </Box>
           <CaretUpDownIcon />
         </Box>
       </Stack>
