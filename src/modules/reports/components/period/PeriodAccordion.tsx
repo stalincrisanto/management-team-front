@@ -1,11 +1,14 @@
 'use client';
 
 import type { PeriodApiResponse } from '@/modules/period/types/period.types';
+import { ArrowRightIcon } from '@phosphor-icons/react';
 
 import CustomAccordion from '@/components/CustomAccordion';
+import { CustomButton } from '@/components/CustomButton';
 
 import PeriodAccordionSummary from './PeriodAccordionSummary';
 import PeriodMetricsGrid from './PeriodMetricsGrid';
+import { useRouter } from 'next/navigation';
 
 interface PeriodAccordionProps {
   period: PeriodApiResponse;
@@ -14,6 +17,8 @@ interface PeriodAccordionProps {
 }
 
 const PeriodAccordion = ({ period, expanded, onChange }: PeriodAccordionProps) => {
+  const router = useRouter();
+
   return (
     <CustomAccordion
       id={`period-${period.id}`}
@@ -22,7 +27,15 @@ const PeriodAccordion = ({ period, expanded, onChange }: PeriodAccordionProps) =
       summary={<PeriodAccordionSummary period={period} />}
     >
       <PeriodMetricsGrid period={period} />
-      {/* Aquí luego irá el botón hacia el detalle de ingresos/gastos */}
+      <CustomButton
+        endIcon={<ArrowRightIcon size={16} />}
+        fullWidth
+        size="small"
+        variant="text"
+        onClick={() => router.push(`/treasury/reports/${period.id}`)}
+      >
+        Ver detalle de ingresos y gastos
+      </CustomButton>
     </CustomAccordion>
   );
 };
