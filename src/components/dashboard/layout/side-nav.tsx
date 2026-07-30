@@ -7,14 +7,15 @@ import { useAuthMe } from '@/modules/auth/hooks/useAuthMe';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import { CaretUpDownIcon } from '@phosphor-icons/react/dist/ssr/CaretUpDown';
+
+// import { CaretUpDownIcon } from '@phosphor-icons/react/dist/ssr/CaretUpDown';
 
 import { paths } from '@/paths';
 import { Logo } from '@/components/core/logo';
 
 import { navItems } from './config';
 import { filterNavItems } from './helper/filterNavItems';
-import { getInitialPathByRole } from './helper/initialPathByRole';
+// import { getInitialPathByRole } from './helper/initialPathByRole';
 import { NavList } from './nav-list';
 
 export function SideNav(): React.JSX.Element {
@@ -29,7 +30,7 @@ export function SideNav(): React.JSX.Element {
     return filterNavItems(navItems, user.role);
   }, [user]);
 
-  const homePath = user ? getInitialPathByRole(user.role) : paths.home;
+  // const homePath = user ? getInitialPathByRole(user.role) : paths.home;
 
   return (
     <Box
@@ -59,7 +60,23 @@ export function SideNav(): React.JSX.Element {
         '&::-webkit-scrollbar': { display: 'none' },
       }}
     >
-      <Stack spacing={2} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ px: 3, py: 2 }}>
+        <Box
+          component={RouterLink}
+          href={paths.home}
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            minHeight: '76px',
+            textDecoration: 'none',
+            width: '100%',
+          }}
+        >
+          <Logo color="light" height={72} width={72} />
+        </Box>
+      </Stack>
+      {/* <Stack spacing={2} sx={{ p: 3 }}>
         <Box component={RouterLink} href={homePath} sx={{ display: 'inline-flex' }}>
           <Logo color="light" height={32} width={122} />
         </Box>
@@ -76,7 +93,7 @@ export function SideNav(): React.JSX.Element {
         >
           <CaretUpDownIcon />
         </Box>
-      </Stack>
+      </Stack> */}
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />
       <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
         {/* <NavList pathname={pathname} items={navItems} /> */}
