@@ -1,12 +1,11 @@
 import * as React from 'react';
 import type { Metadata } from 'next';
+import ReportView from '@/modules/reports/ReportView';
 
 import { config } from '@/config';
 
 export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
-  return (
-    <h1>Hola mundo desde reportes</h1>
-  );
+  return <ReportView />;
 }
