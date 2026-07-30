@@ -3,11 +3,13 @@
 import * as React from 'react';
 import RouterLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuthMe } from '@/modules/auth/hooks/useAuthMe';
 import Box from '@mui/material/Box';
 // import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
+
 // import Typography from '@mui/material/Typography';
 // import { ArrowSquareUpRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowSquareUpRight';
 // import { CaretUpDownIcon } from '@phosphor-icons/react/dist/ssr/CaretUpDown';
@@ -17,7 +19,10 @@ import { paths } from '@/paths';
 import { Logo } from '@/components/core/logo';
 
 import { navItems } from './config';
+import { filterNavItems } from './helper/filterNavItems';
 import { NavList } from './nav-list';
+
+// import { getInitialPathByRole } from './helper/initialPathByRole';
 
 // import { isNavItemActive } from '@/lib/is-nav-item-active';
 // import { navIcons } from './nav-icons';
@@ -30,6 +35,19 @@ export interface MobileNavProps {
 
 export function MobileNav({ open, onClose, items = navItems }: MobileNavProps): React.JSX.Element {
   const pathname = usePathname();
+  const { user, isCheckingSession } = useAuthMe();
+
+  const visibleNavItems = React.useMemo(() => {
+    if (!user) {
+      return [];
+    }
+
+    return filterNavItems(items, user.role);
+  }, [items, user]);
+
+  // const homePath = user
+  //   ? getInitialPathByRole(user.role)
+  //   : paths.home;
 
   return (
     <Drawer
@@ -104,7 +122,9 @@ export function MobileNav({ open, onClose, items = navItems }: MobileNavProps): 
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />
       <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
         {/* {renderNavItems({ pathname, items: navItems })} */}
-        <NavList pathname={pathname} items={items} onItemClick={onClose} />
+        {!isCheckingSession && user ? (
+          <NavList pathname={pathname} items={visibleNavItems} onItemClick={onClose} />
+        ) : null}
       </Box>
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />
       {/* <Stack spacing={2} sx={{ p: '12px' }}>
